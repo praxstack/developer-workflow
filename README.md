@@ -4,6 +4,8 @@ Personal agent engineering stack for Cursor, Codex, and Claude Code.
 
 **→ See [STACK-2026.md](STACK-2026.md) for the full 2026 layer architecture, install commands, and conflict warnings.**
 
+**→ See [PRAXSTACK-SKILLS.md](PRAXSTACK-SKILLS.md) for the praxstack/skills-and-personas portfolio, persona catalog, and replay install commands.**
+
 ## Core methodology (pick one per task)
 
 | Layer | Tool | Install |
