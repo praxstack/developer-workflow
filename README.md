@@ -37,8 +37,37 @@ These require host UI — not fully CLI-automatable:
 
 - **pstack**: Cursor → `/add-plugin pstack` → `/setup-pstack`
 - **Superpowers**: Cursor → `/add-plugin superpowers` (or use portable skills, not both on Claude)
-- **Compound Engineering**: Cursor marketplace or Codex plugin flow
-- **gstack**: `git clone https://github.com/garrytan/gstack.git && ./setup --host cursor` (verify Cursor host support on your version)
+- **Compound Engineering**: Codex → `codex plugin add compound-engineering@compound-engineering-plugin` (done v3.23.4). Cursor → `/add-plugin compound-engineering`
+- **gstack**: ✅ Installed via `~/.agents/plugins/gstack` — `./setup --host cursor` and `./setup --host codex` (55 skills each)
+
+## Cursor Origin (hosted git)
+
+Origin CLI installed to `~/.local/bin/origin` (2026.08.24). **Auth pending:**
+
+```bash
+~/.local/bin/origin auth login   # one-click browser sign-in
+~/.local/bin/origin repo list    # verify after login
+# Optional: origin repo create developer-workflow
+```
+
+GitHub copy remains at this repo; Origin is for Cursor-hosted git at `origin.cursor.com`.
+
+## Setup status (2026-08-29 audit)
+
+| Item | Status |
+| --- | --- |
+| Portable skills (~/.agents/skills) | ✅ ~1184 entries |
+| gstack (cursor + codex) | ✅ |
+| compound-engineering (Codex) | ✅ |
+| compound-engineering (Cursor) | ⏳ `/add-plugin` |
+| pstack | ⏳ `/add-plugin` + `/setup-pstack` |
+| spec-kit CLI | ✅ v1.0.1 |
+| MoA-X offline tests | ✅ 139/139 |
+| graphify on moa-x | ✅ graphify-out/ |
+| Origin CLI | ✅ installed, auth pending |
+| `/env-setup` skill | ❌ not on this machine |
+
+**Env verification stand-in** (no env-setup skill): `install_deps.py` + `test_offline.py` in moa-x.
 
 ## Stack-specific cartridges (install per project)
 
@@ -58,10 +87,13 @@ npx skills@latest add aws/agent-toolkit-for-aws/skills --skill '*' -g -a cursor 
 
 ## Manual gaps
 
-1. CLI credentials for full MoA runs (Qwen, OpenCode, AGY)
-2. Mem0 MCP auth (`MEM0_API_KEY`)
-3. Matt Pocock: pick Claude plugin **or** portable skills, not both
-4. Microsoft skills: install selectively (context rot if loading all 175)
+1. **Origin auth**: `~/.local/bin/origin auth login`
+2. **Cursor plugins**: `/add-plugin pstack` → `/setup-pstack`; `/add-plugin compound-engineering`
+3. CLI credentials for full MoA runs (Qwen, OpenCode, AGY)
+4. Mem0 MCP auth (`MEM0_API_KEY`)
+5. Matt Pocock: pick Claude plugin **or** portable skills, not both
+6. Microsoft skills: install selectively (context rot if loading all 175)
+7. `/env-setup` skill: not installed locally — provide or accept moa-x preflight as substitute
 
 ## Links
 
