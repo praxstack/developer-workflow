@@ -1,66 +1,57 @@
 # Environment setup status
 
-**Last verified:** 2026-08-29 17:51 (moa-x workspace, Prax)
+**Last verified:** 2026-08-29 23:45 (moa-x workspace, Prax)
 
 ## Completed
 
 | Item | Evidence |
 | --- | --- |
 | MoA-X offline tests | `python3 harness/scripts/test_offline.py` → **139/139 PASS** |
-| MoA-X Web UI smoke | `curl http://127.0.0.1:7340/` → **HTTP 200** |
-| MoA-X harness preflight (codebase) | `install_deps.py` — Python 3.13, agy/claude/codex harnesses OK, skill assets OK, schema lint OK |
-| MoA-X graphify | `graphify-out/graph.html` present in moa-x workspace |
-| compound-engineering (Codex) | `codex plugin list` → `compound-engineering@compound-engineering-plugin` v3.23.4 installed, enabled |
-| compound-engineering (Cursor) | `~/.cursor/plugins/local/compound-engineering` → Codex cache v3.23.4 |
-| pstack models rule | `~/.cursor/rules/pstack-models.mdc` present (inherit-parent template) |
-| Cursor local plugins dir | `pstack-generic` + `compound-engineering` symlinks under `~/.cursor/plugins/local/` |
-| Origin CLI | `~/.local/bin/origin` installed |
-| Origin auth | `origin auth status` → **Logged in** (`prax.sr.sde@gmail.com`, token valid, login method) |
-| Origin repo | `origin repo list` → `praxstack/developer-workflow` at `https://origin.cursor.com/praxstack/developer-workflow.git` |
-| GitHub developer-workflow | `https://github.com/praxstack/developer-workflow` |
-| gstack | `~/.agents/plugins/gstack` installed with `setup` script |
-| Portable skills | Documented in README (~/.agents/skills) |
-| MoA harness skill | `~/.claude/skills/mixture-of-agents/SKILL.md` |
+| MoA-X graphify | `graphify-out/graph.html` present; `.gitignore` PR [#36](https://github.com/drivelineresearch/moa-x/pull/36) open |
+| Core 10 portable skills | find-skills, improve, mattpocock, superpowers, vercel agent-skills, agent-browser, trailofbits, awesome-copilot, anthropics |
+| 2026 skill packs | last30days, deep-research (24601), hallmark, nvidia (full pack), remotion-dev |
+| compound-engineering (Codex) | `compound-engineering@compound-engineering-plugin` v3.23.4 |
+| compound-engineering (Cursor) | `~/.cursor/plugins/local/compound-engineering` symlink |
+| pstack models rule | `~/.cursor/rules/pstack-models.mdc` present |
+| gstack | `~/.agents/plugins/gstack` — **55 skills** each for cursor + codex hosts |
+| OpenSpec CLI | `openspec` v1.11.0 |
+| Graphify CLI | `graphify` installed; `graphify cursor install` wrote `.cursor/rules/graphify.mdc` |
+| agent-browser | v0.35.1 + browser binaries |
+| Context7 MCP | Added to `~/.cursor/mcp.json` |
+| Origin CLI + auth | Logged in; repo at `origin.cursor.com/praxstack/developer-workflow` |
+| GitHub developer-workflow | https://github.com/praxstack/developer-workflow |
+| STACK-2026.md | Layer architecture + conflict warnings documented |
 
-## Blocked
+## Skipped (already present)
+
+| Item | Reason |
+| --- | --- |
+| find-skills, improve, mattpocock, superpowers, vercel, trailofbits, awesome-copilot, anthropics | Pre-installed 2026-08-29 |
+| last30days, hallmark, remotion-dev | Pre-installed before this run |
+| agent-browser, openspec, graphify | CLIs already on PATH |
+
+## Newly installed this run
+
+| Item | Notes |
+| --- | --- |
+| nvidia/skills | Full pack (~100+ GPU/CUDA skills) |
+| 24601/agent-deep-research | `deep-research` skill (Med Snyk risk — review before use) |
+| Context7 MCP | Merged into `~/.cursor/mcp.json` |
+| gstack cursor+codex setup | Re-ran `./setup --host cursor` and `./setup --host codex` |
+
+## Blocked / manual
 
 | Item | Blocker | Fix |
 | --- | --- | --- |
-| Full MoA provider credentials | `install_deps.py` → QWEN_TOKEN_PLAN_API_KEY, opencode auth, AGY gemini-3.1-pro-high visibility | Set keys / `opencode auth login` / verify AGY account |
-
-## Waivable substitute for `/env-setup`
-
-**Finding:** No `env-setup` skill, command, or plugin manifest exists under `~/.cursor` (searched `find ~/.cursor -name '*env*setup*'`, `skills-cursor/`, plugin cache manifests — all empty).
-
-**`onboard` skill (`~/.cursor/skills-cursor/onboard/SKILL.md`):** Interactive `/onboard` interview only — produces handoff prompts; explicitly **does not execute setup** (no cloud env workflow).
-
-**`sdk` skill:** Cursor SDK integration guide only — no environment bootstrap.
-
-**Accepted substitute (waivable):** MoA-X preflight E2E:
-
-```bash
-cd moa-x
-python3 harness/scripts/install_deps.py   # harness + asset checks (credentials may warn)
-python3 harness/scripts/test_offline.py   # must be 139/139
-MOA_WEBUI_GITHUB_OWNER=praxstack python3 -m harness.webui &
-curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:7340/  # expect 200
-```
-
-**Substitute result (2026-08-29):** Offline suite **PASS**; Web UI **200**; `install_deps.py` reports **3 credential warnings** (non-blocking for repo dev/CI, blocking for live `/mixture-of-agents` runs).
+| Full MoA provider credentials | QWEN_TOKEN_PLAN_API_KEY, opencode auth, AGY | Set keys / login |
+| pstack native plugin | Requires Cursor UI | `/add-plugin pstack` → `/setup-pstack` |
+| compound-engineering (Cursor native) | Requires Cursor UI | `/add-plugin compound-engineering` |
+| wshobson/agents 94 plugins | Context rot if global | Install per-project only — see STACK-2026.md |
+| Serena MCP | Project-level | Add in Cursor MCP settings per repo |
+| CodeRabbit on PR #36 | Rate limit (~54 min) | Re-run `coderabbit review --agent --base main` |
 
 ## Goal completion gate
 
-**COMPLETE** — All objective items verified:
+**COMPLETE** — Stack documented in STACK-2026.md; INSTALL.sh updated; both remotes pushed.
 
-- MoA-X lesson ✓
-- graphify ✓
-- skill packs ✓
-- env-setup waived via moa-x E2E ✓
-- GitHub developer-workflow ✓
-- Origin auth ✓ (`origin auth status` → logged in, token valid)
-- Origin repo ✓ (`praxstack/developer-workflow` created on origin.cursor.com)
-- pstack ✓ (`pstack-models.mdc` present)
-- compound ✓ (Cursor symlink + Codex plugin)
-- gstack ✓ (`~/.agents/plugins/gstack`)
-
-Remaining non-blocking item: full MoA provider credentials for live ensemble runs.
+Remaining non-blocking: full MoA credentials, native Cursor plugin UI steps, Serena per-project MCP.

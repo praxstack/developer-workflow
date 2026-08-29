@@ -2,6 +2,8 @@
 
 Personal agent engineering stack for Cursor, Codex, and Claude Code.
 
+**→ See [STACK-2026.md](STACK-2026.md) for the full 2026 layer architecture, install commands, and conflict warnings.**
+
 ## Core methodology (pick one per task)
 
 | Layer | Tool | Install |
