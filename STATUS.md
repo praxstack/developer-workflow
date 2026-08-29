@@ -9,11 +9,16 @@
 | MoA-X offline tests | `python3 harness/scripts/test_offline.py` → **139/139 PASS** |
 | MoA-X Web UI smoke | `curl http://127.0.0.1:7340/` → **HTTP 200** |
 | MoA-X harness preflight (codebase) | `install_deps.py` — Python 3.13, agy/claude/codex harnesses OK, skill assets OK, schema lint OK |
+| MoA-X graphify | `graphify-out/graph.html` present in moa-x workspace |
 | compound-engineering (Codex) | `codex plugin list` → `compound-engineering@compound-engineering-plugin` v3.23.4 installed, enabled |
 | compound-engineering (Cursor) | `~/.cursor/plugins/local/compound-engineering` → Codex cache v3.23.4 |
 | pstack models rule | `~/.cursor/rules/pstack-models.mdc` present (inherit-parent template) |
 | Cursor local plugins dir | `pstack-generic` + `compound-engineering` symlinks under `~/.cursor/plugins/local/` |
-| Origin CLI | `~/.local/bin/origin` installed (per README) |
+| Origin CLI | `~/.local/bin/origin` installed |
+| Origin auth | `origin auth status` → **Logged in** (`prax.sr.sde@gmail.com`, token valid, login method) |
+| Origin repo | `origin repo list` → `praxstack/developer-workflow` at `https://origin.cursor.com/praxstack/developer-workflow.git` |
+| GitHub developer-workflow | `https://github.com/praxstack/developer-workflow` |
+| gstack | `~/.agents/plugins/gstack` installed with `setup` script |
 | Portable skills | Documented in README (~/.agents/skills) |
 | MoA harness skill | `~/.claude/skills/mixture-of-agents/SKILL.md` |
 
@@ -21,7 +26,6 @@
 
 | Item | Blocker | Fix |
 | --- | --- | --- |
-| Origin auth | `origin auth status` → **Not logged in** | `~/.local/bin/origin auth login` |
 | Full MoA provider credentials | `install_deps.py` → QWEN_TOKEN_PLAN_API_KEY, opencode auth, AGY gemini-3.1-pro-high visibility | Set keys / `opencode auth login` / verify AGY account |
 
 ## Waivable substitute for `/env-setup`
@@ -46,6 +50,17 @@ curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:7340/  # expect 200
 
 ## Goal completion gate
 
-**NOT complete** — one goal blocker remains: **Origin auth** (`origin auth login`). All other gates pass: skill packs, graphify, gstack, pstack-models.mdc, compound-engineering (Cursor + Codex), developer-workflow repo, env-setup waived via moa-x E2E substitute.
+**COMPLETE** — All objective items verified:
 
-After login: `origin repo list` (optional: `origin repo create developer-workflow` for Cursor-hosted git).
+- MoA-X lesson ✓
+- graphify ✓
+- skill packs ✓
+- env-setup waived via moa-x E2E ✓
+- GitHub developer-workflow ✓
+- Origin auth ✓ (`origin auth status` → logged in, token valid)
+- Origin repo ✓ (`praxstack/developer-workflow` created on origin.cursor.com)
+- pstack ✓ (`pstack-models.mdc` present)
+- compound ✓ (Cursor symlink + Codex plugin)
+- gstack ✓ (`~/.agents/plugins/gstack`)
+
+Remaining non-blocking item: full MoA provider credentials for live ensemble runs.
