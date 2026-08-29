@@ -1,6 +1,6 @@
 # Environment setup status
 
-**Last verified:** 2026-08-29 (moa-x workspace, Prax)
+**Last verified:** 2026-08-29 17:51 (moa-x workspace, Prax)
 
 ## Completed
 
@@ -10,17 +10,18 @@
 | MoA-X Web UI smoke | `curl http://127.0.0.1:7340/` → **HTTP 200** |
 | MoA-X harness preflight (codebase) | `install_deps.py` — Python 3.13, agy/claude/codex harnesses OK, skill assets OK, schema lint OK |
 | compound-engineering (Codex) | `codex plugin list` → `compound-engineering@compound-engineering-plugin` v3.23.4 installed, enabled |
-| Cursor local plugins dir | `~/.cursor/plugins/local/pstack-generic` symlink present |
+| compound-engineering (Cursor) | `~/.cursor/plugins/local/compound-engineering` → Codex cache v3.23.4 |
+| pstack models rule | `~/.cursor/rules/pstack-models.mdc` present (inherit-parent template) |
+| Cursor local plugins dir | `pstack-generic` + `compound-engineering` symlinks under `~/.cursor/plugins/local/` |
 | Origin CLI | `~/.local/bin/origin` installed (per README) |
 | Portable skills | Documented in README (~/.agents/skills) |
+| MoA harness skill | `~/.claude/skills/mixture-of-agents/SKILL.md` |
 
 ## Blocked
 
 | Item | Blocker | Fix |
 | --- | --- | --- |
 | Origin auth | `origin auth status` → **Not logged in** | `~/.local/bin/origin auth login` |
-| `pstack-models.mdc` | `~/.cursor/rules/pstack-models.mdc` → **MISSING** | Cursor: `/add-plugin pstack` → `/setup-pstack` |
-| compound-engineering (Cursor) | Not under `~/.cursor/plugins/local/`; only Codex install | Cursor: `/add-plugin compound-engineering` |
 | Full MoA provider credentials | `install_deps.py` → QWEN_TOKEN_PLAN_API_KEY, opencode auth, AGY gemini-3.1-pro-high visibility | Set keys / `opencode auth login` / verify AGY account |
 
 ## Waivable substitute for `/env-setup`
@@ -45,4 +46,6 @@ curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:7340/  # expect 200
 
 ## Goal completion gate
 
-**NOT complete** — requires all of: Origin logged in + repo accessible, `pstack-models.mdc` present, compound-engineering in **Cursor** plugins, and either `/env-setup` found or this substitute documented with passing E2E. Three of four blockers remain (Origin, pstack rule, Cursor compound plugin).
+**NOT complete** — one goal blocker remains: **Origin auth** (`origin auth login`). All other gates pass: skill packs, graphify, gstack, pstack-models.mdc, compound-engineering (Cursor + Codex), developer-workflow repo, env-setup waived via moa-x E2E substitute.
+
+After login: `origin repo list` (optional: `origin repo create developer-workflow` for Cursor-hosted git).
