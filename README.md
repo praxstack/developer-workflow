@@ -6,6 +6,8 @@ Personal agent engineering stack for Cursor, Codex, and Claude Code.
 
 **→ See [PRAXSTACK-SKILLS.md](PRAXSTACK-SKILLS.md) for the praxstack/skills-and-personas portfolio, persona catalog, and replay install commands.**
 
+**→ See [CLOUD-WORKFLOW.md](CLOUD-WORKFLOW.md) for cloud-first agent work (Origin + GitHub, VM bootstrap, PR flow).**
+
 ## Core methodology (pick one per task)
 
 | Layer | Tool | Install |
